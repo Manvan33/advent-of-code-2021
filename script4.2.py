@@ -49,16 +49,24 @@ def main():
         order, boards = parse_input(input_file.readlines())
         markings = blank_markings(5, len(boards))
     for draw in order:
-        print(draw)
-        for board in range(len(boards)):
+        # print(draw)
+        board = 0
+        max = len(boards)
+        while board < max:
             for line in range(5):
                 for column in range(5):
                     if boards[board][line][column] == draw:
                         # print(board, line, column, draw)
                         markings[board][line][column] = 1
             if check_win(markings[board]):
-                print(calculate_score(boards[board], markings[board]) * draw)
-                return 
+                winner = {'board': boards[board], 'markings': markings[board], 'draw': draw}
+                boards.pop(board)
+                markings.pop(board)
+                max -= 1
+            else :
+                board += 1
+    print(winner)
+    print(calculate_score(winner['board'], winner['markings'])*winner['draw'])
 
                 
 if __name__ == "__main__":
